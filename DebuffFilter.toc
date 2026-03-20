@@ -1,0 +1,8 @@
+## Interface: 30300
+## Version: 2.0
+## Title: |cffe5e3e3Debuff Filter|r |cff1784d1Enhanced|r
+## Notes: Filter out specific debuffs and buffs into separate frames.
+## Author: Nidhaus
+## SavedVariables: DebuffFilter_Config
+DebuffFilter.xml
+DebuffFilter_Options.xml
