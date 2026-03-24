@@ -220,7 +220,7 @@ C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
 				<Scripts>
 					<OnLoad>
 						getglobal(self:GetName() .. "Text"):SetText(DFILTER_OPTIONS_SELFAPPLIED);
-						getglobal(self:GetName() .. "Text"):SetTextColor(0.55, 0.80, 1.0);
+						getglobal(self:GetName() .. "Text"):SetTextColor(1.0, 1.0, 1.0);
 						self.tooltipText = DFILTER_OPTIONS_SELFAPPLIED_TOOLTIP;
 					</OnLoad>
 					<OnClick>
@@ -239,7 +239,7 @@ C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
 				<Scripts>
 					<OnLoad>
 						getglobal(self:GetName() .. "Text"):SetText(DFILTER_OPTIONS_DONTCOMBINE);
-						getglobal(self:GetName() .. "Text"):SetTextColor(0.55, 0.80, 1.0);
+						getglobal(self:GetName() .. "Text"):SetTextColor(1.0, 1.0, 1.0);
 						self.tooltipText = DFILTER_OPTIONS_DONTCOMBINE_TOOLTIP;
 					</OnLoad>
 					<OnClick>
@@ -508,7 +508,7 @@ C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
 			</Frame>
 			<Frame name="DebuffFilterOptions_SettingsFrame">
 				<Size>
-					<AbsDimension x="510" y="305"/>
+					<AbsDimension x="510" y="275"/>
 				</Size>
 				<Anchors>
 					<Anchor point="BOTTOMLEFT">
@@ -559,7 +559,7 @@ C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
 						<Scripts>
 							<OnLoad>
 								getglobal(self:GetName() .. "Text"):SetText(DFILTER_OPTIONS_DEBUFF_FILTERING);
-								getglobal(self:GetName() .. "Text"):SetTextColor(0.55, 0.80, 1.0);
+								getglobal(self:GetName() .. "Text"):SetTextColor(1.0, 1.0, 1.0);
 								self.tooltipText = DFILTER_OPTIONS_DEBUFF_FILTERING_TOOLTIP;
 							</OnLoad>
 							<OnShow>
@@ -583,7 +583,7 @@ C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
 						<Scripts>
 							<OnLoad>
 								getglobal(self:GetName() .. "Text"):SetText(DFILTER_OPTIONS_BUFF_FILTERING);
-								getglobal(self:GetName() .. "Text"):SetTextColor(0.55, 0.80, 1.0);
+								getglobal(self:GetName() .. "Text"):SetTextColor(1.0, 1.0, 1.0);
 								self.tooltipText = DFILTER_OPTIONS_BUFF_FILTERING_TOOLTIP;
 							</OnLoad>
 							<OnShow>
@@ -607,7 +607,7 @@ C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
 						<Scripts>
 							<OnLoad>
 								getglobal(self:GetName() .. "Text"):SetText(DFILTER_OPTIONS_PDEBUFF_FILTERING);
-								getglobal(self:GetName() .. "Text"):SetTextColor(0.55, 0.80, 1.0);
+								getglobal(self:GetName() .. "Text"):SetTextColor(1.0, 1.0, 1.0);
 								self.tooltipText = DFILTER_OPTIONS_PDEBUFF_FILTERING_TOOLTIP;
 							</OnLoad>
 							<OnShow>
@@ -631,7 +631,7 @@ C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
 						<Scripts>
 							<OnLoad>
 								getglobal(self:GetName() .. "Text"):SetText(DFILTER_OPTIONS_PBUFF_FILTERING);
-								getglobal(self:GetName() .. "Text"):SetTextColor(0.55, 0.80, 1.0);
+								getglobal(self:GetName() .. "Text"):SetTextColor(1.0, 1.0, 1.0);
 								self.tooltipText = DFILTER_OPTIONS_PBUFF_FILTERING_TOOLTIP;
 							</OnLoad>
 							<OnShow>
@@ -655,7 +655,7 @@ C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
 						<Scripts>
 							<OnLoad>
 								getglobal(self:GetName() .. "Text"):SetText(DFILTER_OPTIONS_FDEBUFF_FILTERING);
-								getglobal(self:GetName() .. "Text"):SetTextColor(0.55, 0.80, 1.0);
+								getglobal(self:GetName() .. "Text"):SetTextColor(1.0, 1.0, 1.0);
 								self.tooltipText = DFILTER_OPTIONS_FDEBUFF_FILTERING_TOOLTIP;
 							</OnLoad>
 							<OnShow>
@@ -679,7 +679,7 @@ C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
 						<Scripts>
 							<OnLoad>
 								getglobal(self:GetName() .. "Text"):SetText(DFILTER_OPTIONS_FBUFF_FILTERING);
-								getglobal(self:GetName() .. "Text"):SetTextColor(0.55, 0.80, 1.0);
+								getglobal(self:GetName() .. "Text"):SetTextColor(1.0, 1.0, 1.0);
 								self.tooltipText = DFILTER_OPTIONS_FBUFF_FILTERING_TOOLTIP;
 							</OnLoad>
 							<OnShow>
@@ -703,7 +703,7 @@ C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
 						<Scripts>
 							<OnLoad>
 								getglobal(self:GetName() .. "Text"):SetText(DFILTER_OPTIONS_COUNT);
-								getglobal(self:GetName() .. "Text"):SetTextColor(0.55, 0.80, 1.0);
+								getglobal(self:GetName() .. "Text"):SetTextColor(1.0, 1.0, 1.0);
 								self.tooltipText = DFILTER_OPTIONS_COUNT_TOOLTIP;
 							</OnLoad>
 							<OnShow>
@@ -727,7 +727,7 @@ C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
 						<Scripts>
 							<OnLoad>
 								getglobal(self:GetName() .. "Text"):SetText(DFILTER_OPTIONS_COOLDOWNCOUNT);
-								getglobal(self:GetName() .. "Text"):SetTextColor(0.55, 0.80, 1.0);
+								getglobal(self:GetName() .. "Text"):SetTextColor(1.0, 1.0, 1.0);
 								self.tooltipText = DFILTER_OPTIONS_COOLDOWNCOUNT_TOOLTIP;
 							</OnLoad>
 							<OnShow>
@@ -751,7 +751,7 @@ C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
 						<Scripts>
 							<OnLoad>
 								getglobal(self:GetName() .. "Text"):SetText(DFILTER_OPTIONS_COMBAT);
-								getglobal(self:GetName() .. "Text"):SetTextColor(0.55, 0.80, 1.0);
+								getglobal(self:GetName() .. "Text"):SetTextColor(1.0, 1.0, 1.0);
 								self.tooltipText = DFILTER_OPTIONS_COMBAT_TOOLTIP;
 							</OnLoad>
 							<OnShow>
@@ -775,7 +775,7 @@ C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
 						<Scripts>
 							<OnLoad>
 								getglobal(self:GetName() .. "Text"):SetText(DFILTER_OPTIONS_TOOLTIPS);
-								getglobal(self:GetName() .. "Text"):SetTextColor(0.55, 0.80, 1.0);
+								getglobal(self:GetName() .. "Text"):SetTextColor(1.0, 1.0, 1.0);
 								self.tooltipText = DFILTER_OPTIONS_TOOLTIPS_TOOLTIP;
 							</OnLoad>
 							<OnShow>
@@ -799,7 +799,7 @@ C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
 						<Scripts>
 							<OnLoad>
 								getglobal(self:GetName() .. "Text"):SetText(DFILTER_OPTIONS_BACKDROP);
-								getglobal(self:GetName() .. "Text"):SetTextColor(0.55, 0.80, 1.0);
+								getglobal(self:GetName() .. "Text"):SetTextColor(1.0, 1.0, 1.0);
 								self.tooltipText = DFILTER_OPTIONS_BACKDROP_TOOLTIP;
 							</OnLoad>
 							<OnClick>
@@ -818,7 +818,7 @@ C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
 						<Scripts>
 							<OnLoad>
 								getglobal(self:GetName() .. "Text"):SetText(DFILTER_OPTIONS_LOCK);
-								getglobal(self:GetName() .. "Text"):SetTextColor(0.55, 0.80, 1.0);
+								getglobal(self:GetName() .. "Text"):SetTextColor(1.0, 1.0, 1.0);
 								self.tooltipText = DFILTER_OPTIONS_LOCK_TOOLTIP;
 							</OnLoad>
 							<OnShow>
