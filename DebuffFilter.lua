@@ -343,7 +343,20 @@ function DebuffFilter_ShowButton(button, index, texture, applications, duration,
 end
 
 function DebuffFilter_Frame_Update(framename)
+	-- GUARDA DE ARRANQUE (agregada):
+	-- DebuffFilter_PlayerConfig se crea en DebuffFilter_Initialize(), que
+	-- corre en VARIABLES_LOADED. Pero UNIT_AURA ya esta registrado antes y
+	-- puede disparar primero — al entrar al mundo, con los buffs propios.
+	-- Ahi esta funcion indexaba una tabla nil y tiraba:
+	--   "attempt to index upvalue 'DebuffFilter_PlayerConfig' (a nil value)"
+	-- El propio addon ya usa esta bandera en otros lados (lineas 513 y 899),
+	-- asi que se sigue el mismo criterio.
+	if (not DebuffFilter_VariablesLoaded) or (not DebuffFilter_PlayerConfig) then
+		return;
+	end
+
 	local frameitem = DebuffFilter.Frames[framename];
+	if (not frameitem) then return; end
 	local isdebuff, target = frameitem.isdebuff, frameitem.target;
 	local option_key = frameitem.option_key;
 	if (not DebuffFilter_PlayerConfig[option_key]) then
@@ -712,7 +725,7 @@ function DebuffFilter_SetFrameScale(framename, layout_key, scale)
 end
 
 function DebuffFilter_Print(msg)
-	DEFAULT_CHAT_FRAME:AddMessage("|cff00ff00Debuff Filter|r: " .. msg);
+	DEFAULT_CHAT_FRAME:AddMessage("|cff4fc3f7[Debuff Filter]|r " .. msg);
 end
 
 -- save each frame's current position to SavedVariables so it persists across sessions

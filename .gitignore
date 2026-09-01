@@ -1,0 +1,15 @@
+# Comprimidos y respaldos
+*.rar
+*.zip
+*.7z
+*.bak
+
+# Versiones de trabajo anteriores
+DebuffFilter/
+FUNCIONANDO BIEN 3.0 CON IMPORT Y EXPORT/
+funcionando bien el 2.0/
+funcionando bien pre mejora de claude y premejora de nuevo menu arcane/
+
+# Sistema
+Thumbs.db
+desktop.ini

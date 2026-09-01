@@ -455,7 +455,7 @@ function DebuffFilterOptions_ApplyArcaneTheme()
 		-- Create a NEW FontString parented to the box itself so it always renders on top
 		local fs = box:CreateFontString("DebuffFilterOptions_TitleFS", "OVERLAY", "GameFontNormalLarge");
 		fs:SetPoint("CENTER", box, "CENTER", 0, 0);
-		fs:SetTextColor(1.0, 0.82, 0.0);
+		fs:SetTextColor(1.0, 0.84, 0.0);  -- FFD700
 		fs:SetShadowColor(0.0, 0.0, 0.0, 1.0);
 		fs:SetShadowOffset(1, -1);
 		fs:SetText("Debuff Filter " .. GetAddOnMetadata("DebuffFilter", "Version"));
@@ -492,9 +492,9 @@ function DebuffFilterOptions_ApplyArcaneTheme()
 	for _, name in ipairs(sliders) do
 		local sl = _G[name];
 		if sl then
-			_G[name .. "Text"]:SetTextColor(0.55, 0.80, 1.0);
-			_G[name .. "Low"]:SetTextColor(0.30, 0.50, 0.75);
-			_G[name .. "High"]:SetTextColor(0.30, 0.50, 0.75);
+			_G[name .. "Text"]:SetTextColor(0.31, 0.76, 0.97);  -- 4fc3f7
+			_G[name .. "Low"]:SetTextColor(0.67, 0.67, 0.67);   -- aaaaaa
+			_G[name .. "High"]:SetTextColor(0.67, 0.67, 0.67);  -- aaaaaa
 		end
 	end
 
@@ -503,7 +503,7 @@ function DebuffFilterOptions_ApplyArcaneTheme()
 	local function colorRegions(frame)
 		for _, region in ipairs({frame:GetRegions()}) do
 			if region:GetObjectType() == "FontString" then
-				region:SetTextColor(0.30, 0.55, 0.85);
+				region:SetTextColor(0.31, 0.76, 0.97);  -- 4fc3f7
 			end
 		end
 	end

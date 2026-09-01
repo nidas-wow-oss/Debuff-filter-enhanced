@@ -1,6 +1,6 @@
 ## Interface: 30300
 ## Version: 2.0
-## Title: |cffe5e3e3Debuff Filter|r |cff1784d1Enhanced|r
+## Title: |cffffffffD|r|cffffffffe|r|cffffffffb|r|cffffffffu|r|cfffffffff|r|cfffffffff|r|cffffffff |r|cffffffffF|r|cffffffffi|r|cffffffffl|r|cfffffffft|r|cffffffffe|r|cffffffffr|r|cffffffff |r|cff00ff00E|r|cff00ff00n|r|cff00ff00h|r|cff00ff00a|r|cff00ff00n|r|cff00ff00c|r|cff00ff00e|r|cff00ff00d|r
 ## Notes: Filter out specific debuffs and buffs into separate frames.
 ## Author: Nidhaus
 ## SavedVariables: DebuffFilter_Config
