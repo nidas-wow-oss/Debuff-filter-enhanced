@@ -1,7 +1,8 @@
-[README (3).md](https://github.com/user-attachments/files/26131313/README.3.md)
 # Debuff Filter Enhanced
 
-A World of Warcraft addon (WotLK 3.3.0) that lets you pull specific debuffs and buffs out of the default UI and display them in their own dedicated, movable frames — so you always see what actually matters.
+A World of Warcraft addon for WotLK 3.3.5a that lets you pull specific debuffs and buffs out of the default UI and display them in their own dedicated, movable frames — so you always see what actually matters.
+
+![Debuff Filter options panel](screenshots/options.webp)
 
 ---
 
@@ -24,12 +25,13 @@ Each frame is independent — you can enable only the ones you need.
 
 ## Installation
 
-1. Download or clone this repository.
-2. Copy the `DebuffFilter` folder into your addons directory:
+1. Download this repository (**Code → Download ZIP**) or clone it.
+2. Rename the extracted folder to exactly **`DebuffFilter`** (GitHub names it `Debuff-filter-enhanced-main`; WoW will not load the addon unless the folder name matches the `.toc` file).
+3. Copy the `DebuffFilter` folder into your addons directory:
    ```
-   World of Warcraft/_classic_era_/Interface/AddOns/
+   World of Warcraft/Interface/AddOns/
    ```
-3. Launch the game and make sure **Debuff Filter Enhanced** is enabled in the AddOns list on the character select screen.
+4. Launch the game and make sure **Debuff Filter Enhanced** is enabled in the AddOns list on the character select screen.
 
 ---
 
@@ -52,13 +54,13 @@ All commands start with `/dfilter`:
 
 ## Moving Frames
 
-Frames are locked by default once positioned. To move them:
+Turn on **Show Backdrop** in the panel to see where each frame is, then:
 
 - **Shift + Left Click & Drag** — a backdrop or a tracked aura icon to reposition the frame.
-- **Shift + Right Click** — cycle the frame's **grow direction** (right, left, up, down).
+- **Shift + Right Click** — cycle the frame's **grow direction** (Right-Down, Right-Up, Left-Down, Left-Up).
 - **Ctrl + Right Click** — cycle the **timer position** around the icon.
 
-Positions are saved per character and restored automatically on login.
+Positions are saved per character and restored automatically on login. **Lock Frames** makes the icons click-through once you are happy with the layout.
 
 ---
 
@@ -67,14 +69,15 @@ Positions are saved per character and restored automatically on login.
 Open it with `/dfilter` and you'll find options to:
 
 - **Enable/disable** each of the six frames
-- **Add or remove** auras from any list
-- Set **grow direction** and **icons per row** for each frame
-- Toggle the **aura count** badge and **cooldown spiral**
+- **Add or remove** auras from any list (optionally only the ones you applied, or without combining stacks from different casters)
+- Set **grow direction**, **icons per row** and **frame scale** for each frame
+- Toggle the **aura count** badge and **cooldown spiral** timers
 - Show frames **only in combat**
 - Enable **tooltips** on hover
 - **Lock** frames so clicks pass through them
-- Adjust **global scale** and individual **per-frame scale**
+- Adjust the **global scale**
 - **Copy** your configuration from another character's profile
+- **Export / Import** your settings as text, to move them to another account or share them
 
 ---
 
@@ -86,13 +89,15 @@ Settings are stored per character under `DebuffFilter_Config`. You can copy a pr
 
 ## Default Aura Lists
 
-The addon ships with a starter list of commonly tracked auras (Sunder Armor, Faerie Fire, Anti-Magic Shell, Ice Block, and many more). You can freely add, remove, or replace any of them through the config panel.
+The addon ships with a starter list of commonly tracked auras (Sunder Armor, Faerie Fire, Anti-Magic Shell, Ice Block, and many more). The list is built from spell IDs, so the names come out in your client's language (English, Russian, German, Spanish…) and match the auras in game. You can freely add, remove, or replace any of them through the config panel.
+
+The interface is translated into English, Spanish, Russian, German, French, Korean and Chinese.
 
 ---
 
 ## Requirements
 
-- **Game version:** WotLK 3.3.0 (Interface `30300`)
+- **Game version:** WotLK 3.3.5a (Interface `30300`)
 - No external library dependencies
 
 ---

@@ -8,7 +8,7 @@ usy820127: koKR
 ]]
    
 
-DFILTER_BACKDROP_TOOLTIP = "Shift+left click to move.\nCtrl+right click to change time orientation."
+DFILTER_BACKDROP_TOOLTIP = "Shift+left click to move.\nShift+right click to change grow direction.\nCtrl+right click to change time orientation."
 
 DFILTER_OPTIONS_TARGET = "Target:"
 DFILTER_OPTIONS_GROW = "Grow:"
@@ -343,7 +343,7 @@ DFILTER_OPTIONS_LOCK_TOOLTIP = "마우스에 반응하지 않도록 잠급니다
 DFILTER_OPTIONS_SCALE_TOOLTIP = "아이콘 크기를 조절합니다."
 
 elseif (GetLocale() == "esES" or GetLocale() == "esMX") then
-DFILTER_BACKDROP_TOOLTIP = "Shift+clic izquierdo para mover.\nCtrl+clic derecho para cambiar orientaci\195\179n del tiempo."
+DFILTER_BACKDROP_TOOLTIP = "Shift+clic izquierdo para mover.\nShift+clic derecho para cambiar la direcci\195\179n.\nCtrl+clic derecho para cambiar orientaci\195\179n del tiempo."
 
 DFILTER_OPTIONS_TARGET = "Objetivo:"
 DFILTER_OPTIONS_GROW = "Direcci\195\179n:"
@@ -406,5 +406,70 @@ DFILTER_OPTIONS_TOOLTIPS_TOOLTIP = "Muestra tooltips al pasar el cursor sobre bu
 DFILTER_OPTIONS_BACKDROP_TOOLTIP = "Muestra un fondo bajo cada marco para facilitar su movimiento."
 DFILTER_OPTIONS_LOCK_TOOLTIP = "Bloquea los marcos, permitiendo hacer clic a trav\195\169s.\n\nNota: los tooltips no se mostrar\195\161n cuando los marcos est\195\161n bloqueados."
 DFILTER_OPTIONS_SCALE_TOOLTIP = "Cambia el tama\195\177o de los marcos.";
+
+elseif (GetLocale() == "ruRU") then
+DFILTER_BACKDROP_TOOLTIP = "Shift+ЛКМ — переместить.\nShift+ПКМ — направление роста.\nCtrl+ПКМ — положение таймера."
+
+DFILTER_OPTIONS_TARGET = "Цель:"
+DFILTER_OPTIONS_GROW = "Рост:"
+DFILTER_OPTIONS_ROW = "Значков в ряду"
+DFILTER_OPTIONS_SELFAPPLIED = "Только наложенные мной"
+DFILTER_OPTIONS_DONTCOMBINE = "Не объединять стаки"
+DFILTER_OPTIONS_NAME = "Название баффа/дебаффа:"
+DFILTER_OPTIONS_TEXTURE = "Текстура (необязательно):"
+DFILTER_OPTIONS_ADD = "Добавить"
+DFILTER_OPTIONS_DEL = "Удалить"
+DFILTER_OPTIONS_DEBUFFS = "Дебаффы"
+DFILTER_OPTIONS_BUFFS = "Баффы"
+DFILTER_OPTIONS_SETTINGS = "Настройки"
+DFILTER_OPTIONS_DEBUFF_FILTERING = "Дебаффы цели"
+DFILTER_OPTIONS_BUFF_FILTERING = "Баффы цели"
+DFILTER_OPTIONS_PDEBUFF_FILTERING = "Дебаффы игрока"
+DFILTER_OPTIONS_PBUFF_FILTERING = "Баффы игрока"
+DFILTER_OPTIONS_FDEBUFF_FILTERING = "Дебаффы фокуса"
+DFILTER_OPTIONS_FBUFF_FILTERING = "Баффы фокуса"
+DFILTER_OPTIONS_COUNT = "Показывать количество"
+DFILTER_OPTIONS_COOLDOWNCOUNT = "Таймеры CooldownCount"
+DFILTER_OPTIONS_COMBAT = "Только в бою"
+DFILTER_OPTIONS_TOOLTIPS = "Показывать подсказки"
+DFILTER_OPTIONS_BACKDROP = "Показывать фон"
+DFILTER_OPTIONS_LOCK = "Закрепить рамки"
+DFILTER_OPTIONS_SCALE = "Масштаб"
+DFILTER_OPTIONS_FRAME_SCALE = "Масштаб рамки"
+DFILTER_OPTIONS_FRAME_SCALE_TOOLTIP = "Масштаб этой рамки отдельно от общего масштаба."
+DFILTER_OPTIONS_PROFILE = "Копировать профиль:"
+DFILTER_OPTIONS_PROFILE_TOOLTIP = "Выберите персонажа, чьи настройки нужно скопировать."
+DFILTER_OPTIONS_COPY = "Копировать"
+DFILTER_OPTIONS_COPY_TOOLTIP = "Скопировать настройки выбранного персонажа. Интерфейс будет перезагружен."
+DFILTER_OPTIONS_EXPORT = "Экспорт"
+DFILTER_OPTIONS_EXPORT_TOOLTIP = "Экспорт настроек в текст, чтобы перенести их на другой аккаунт."
+DFILTER_OPTIONS_IMPORT = "Импорт"
+DFILTER_OPTIONS_IMPORT_TOOLTIP = "Импорт настроек из текста. Интерфейс будет перезагружен."
+DFILTER_PROFILE_NO_SELECT = "Профиль не выбран."
+DFILTER_PROFILE_COPIED = "Профиль скопирован: "
+DFILTER_EXPORT_TITLE = "Экспорт — скопируйте текст (Ctrl+A, Ctrl+C)"
+DFILTER_IMPORT_TITLE = "Импорт — вставьте настройки ниже"
+DFILTER_IMPORT_BUTTON = "Импорт"
+DFILTER_IMPORT_ERROR = "Ошибка импорта: "
+DFILTER_IMPORT_SUCCESS = "Настройки импортированы. Перезагрузка..."
+
+DFILTER_OPTIONS_TARGET_TOOLTIP = "Чьи баффы и дебаффы настраивать."
+DFILTER_OPTIONS_GROW_TOOLTIP = "В какую сторону растут значки."
+DFILTER_OPTIONS_ROW_TOOLTIP = "Сколько значков в одном ряду."
+DFILTER_OPTIONS_SELFAPPLIED_TOOLTIP = "Показывать только баффы и дебаффы, наложенные вами."
+DFILTER_OPTIONS_DONTCOMBINE_TOOLTIP = "Не объединять одинаковые эффекты от разных игроков в один значок."
+DFILTER_OPTIONS_DEBUFF_FILTERING_TOOLTIP = "Включить или выключить рамку дебаффов на цели."
+DFILTER_OPTIONS_BUFF_FILTERING_TOOLTIP = "Включить или выключить рамку баффов на цели."
+DFILTER_OPTIONS_PDEBUFF_FILTERING_TOOLTIP = "Включить или выключить рамку дебаффов на вас."
+DFILTER_OPTIONS_PBUFF_FILTERING_TOOLTIP = "Включить или выключить рамку баффов на вас."
+DFILTER_OPTIONS_FDEBUFF_FILTERING_TOOLTIP = "Включить или выключить рамку дебаффов на фокусе."
+DFILTER_OPTIONS_FBUFF_FILTERING_TOOLTIP = "Включить или выключить рамку баффов на фокусе."
+DFILTER_OPTIONS_COUNT_TOOLTIP = "Показывать рядом с рамкой общее число баффов или дебаффов."
+DFILTER_OPTIONS_COOLDOWNCOUNT_TOOLTIP = "Таймеры в стиле CooldownCount (через OmniCC)."
+DFILTER_OPTIONS_COMBAT_TOOLTIP = "Скрывать рамки вне боя."
+DFILTER_OPTIONS_TOOLTIPS_TOOLTIP = "Показывать подсказку при наведении на значок."
+DFILTER_OPTIONS_BACKDROP_TOOLTIP = "Показывать фон под рамками, чтобы их было легче перемещать."
+DFILTER_OPTIONS_LOCK_TOOLTIP = "Закрепить рамки: клики проходят сквозь них.\n\nВнимание: при закреплённых рамках подсказки не показываются."
+DFILTER_OPTIONS_SCALE_TOOLTIP = "Общий размер всех рамок.";
 
 end

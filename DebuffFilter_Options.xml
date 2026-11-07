@@ -974,7 +974,7 @@ C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
 				DebuffFilterOptions_ApplyArcaneTheme();
 			</OnShow>
 			<OnMouseDown>
-				if (arg1 == "LeftButton") then
+				if (button == "LeftButton") then
 					self:StartMoving();
 				end
 			</OnMouseDown>
@@ -1079,7 +1079,7 @@ C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
 		</Frames>
 		<Scripts>
 			<OnMouseDown>
-				if (arg1 == "LeftButton") then
+				if (button == "LeftButton") then
 					self:StartMoving();
 				end
 			</OnMouseDown>

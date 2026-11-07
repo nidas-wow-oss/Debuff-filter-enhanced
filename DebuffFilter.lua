@@ -20,85 +20,111 @@ local DebuffFilter_DefaultSettings = {
 	combat = false,
 	tooltips = false,
 	lock = false,
-	debuff_list = {
-		["Sunder Armor"] = {},
-		["Faerie Fire"] = {},
-		["Curse of Recklessness"] = {},
-		["Thunder Clap"] = {},
-		["Expose Armor"] = {},
-	},
-	buff_list = {
-		["Anti-Magic Shell"] = {},
-		["Berserker Rage"] = {},
-		["Bladestorm"] = {},
-		["Cheating Death"] = {},
-		["Cloak of Shadows"] = {},
-		["Deterrence"] = {},
-		["Dispersion"] = {},
-		["Divine Sacrifice"] = {},
-		["Evasion"] = {},
-		["Fingers of Frost"] = {},
-		["Grounding Totem Effect"] = {},
-		["Hand of Freedom"] = {},
-		["Hand of Protection"] = {},
-		["Hand of Sacrifice"] = {},
-		["Ice Block"] = {},
-		["Icebound Fortitude"] = {},
-		["Intervene"] = {},
-		["Lichborne"] = {},
-		["Master's Call"] = {},
-		["Pain Suppression"] = {},
-		["Power Word: Shield"] = {},
-		["Predator's Swiftness"] = {},
-		["Recklessness"] = {},
-		["Retaliation"] = {},
-		["Roar of Sacrifice"] = {},
-		["Sacred Cleansing"] = {},
-		["Shadow Dance"] = {},
-		["Shield Block"] = {},
-		["Shield Wall"] = {},
-		["Spell Reflection"] = {},
-	},
-	pdebuff_list = {
-		["Aimed Shot"] = {},
-		["Mortal Strike"] = {},
-		["Wound Poison VII"] = {},
-	},
-	pbuff_list = {
-		["Aspect of the Cheetah"] = {},
-		["Aspect of the Dragonhawk"] = {},
-		["Aspect of the Viper"] = {},
-		["Avenging Wrath"] = {},
-		["Beacon of Light"] = {},
-		["Berserk"] = {},
-		["Divine Plea"] = {},
-		["Dispersion"] = {},
-		["Divine Protection"] = {},
-		["Divine Sacrifice"] = {},
-		["Hand of Freedom"] = {},
-		["Hand of Protection"] = {},
-		["Icy Rage"] = {},
-		["Intervene"] = {},
-		["Infusion of Light"] = {},
-		["Master's Call"] = {},
-		["Paragon"] = {},
-		["Piercing Twilight"] = {},
-		["Rapid Fire"] = {},
-		["Reckoning"] = {},
-		["Roar of Sacrifice"] = {},
-		["Sacred Shield"] = {},
-		["Swordguard Embroidery"] = {},
-		["Water Shield"] = {},
-	},
-	fdebuff_list = {
-		["Mortal Strike"] = {},
-	},
-	fbuff_list = {
-		["Fear Ward"] = {},
-	},
+	-- se llenan en DebuffFilter_BuildDefaultLists() con el nombre en el idioma del cliente
+	debuff_list = {},
+	buff_list = {},
+	pdebuff_list = {},
+	pbuff_list = {},
+	fdebuff_list = {},
+	fbuff_list = {},
 	-- saved frame positions (TOPLEFT anchor relative to UIParent BOTTOMLEFT)
 	positions = {},
 }
+
+-- Listas de fabrica por ID de hechizo. GetSpellInfo devuelve el nombre en el
+-- idioma del cliente, asi la misma version sirve en ingles, ruso, etc.
+local DebuffFilter_DefaultSpells = {
+	debuff_list = {
+		7386,  -- Sunder Armor
+		770,   -- Faerie Fire
+		16231, -- Curse of Recklessness
+		6343,  -- Thunder Clap
+		8647,  -- Expose Armor
+	},
+	buff_list = {
+		48707, -- Anti-Magic Shell
+		18499, -- Berserker Rage
+		46924, -- Bladestorm
+		45182, -- Cheating Death
+		31224, -- Cloak of Shadows
+		19263, -- Deterrence
+		47585, -- Dispersion
+		64205, -- Divine Sacrifice
+		5277,  -- Evasion
+		44544, -- Fingers of Frost
+		8178,  -- Grounding Totem Effect
+		1044,  -- Hand of Freedom
+		1022,  -- Hand of Protection
+		6940,  -- Hand of Sacrifice
+		45438, -- Ice Block
+		48792, -- Icebound Fortitude
+		3411,  -- Intervene
+		49039, -- Lichborne
+		62305, -- Master's Call
+		33206, -- Pain Suppression
+		17,    -- Power Word: Shield
+		69369, -- Predator's Swiftness
+		1719,  -- Recklessness
+		20230, -- Retaliation
+		53480, -- Roar of Sacrifice
+		53659, -- Sacred Cleansing
+		51713, -- Shadow Dance
+		2565,  -- Shield Block
+		871,   -- Shield Wall
+		23920, -- Spell Reflection
+	},
+	pdebuff_list = {
+		19434, -- Aimed Shot
+		12294, -- Mortal Strike
+		57975, -- Wound Poison VII
+	},
+	pbuff_list = {
+		5118,  -- Aspect of the Cheetah
+		61846, -- Aspect of the Dragonhawk
+		34074, -- Aspect of the Viper
+		31884, -- Avenging Wrath
+		53563, -- Beacon of Light
+		50334, -- Berserk
+		54428, -- Divine Plea
+		47585, -- Dispersion
+		498,   -- Divine Protection
+		64205, -- Divine Sacrifice
+		1044,  -- Hand of Freedom
+		1022,  -- Hand of Protection
+		71401, -- Icy Rage
+		3411,  -- Intervene
+		54149, -- Infusion of Light
+		62305, -- Master's Call
+		67708, -- Paragon
+		75456, -- Piercing Twilight
+		3045,  -- Rapid Fire
+		20178, -- Reckoning
+		53480, -- Roar of Sacrifice
+		53601, -- Sacred Shield
+		55775, -- Swordguard Embroidery
+		52127, -- Water Shield
+	},
+	fdebuff_list = {
+		12294, -- Mortal Strike
+	},
+	fbuff_list = {
+		6346,  -- Fear Ward
+	},
+}
+
+-- arma las listas de fabrica; solo se usan para personajes sin config guardada
+local function DebuffFilter_BuildDefaultLists()
+	for list_key, ids in pairs(DebuffFilter_DefaultSpells) do
+		local list = {};
+		for _, id in ipairs(ids) do
+			local name = GetSpellInfo(id);
+			if name then
+				list[name] = {};
+			end
+		end
+		DebuffFilter_DefaultSettings[list_key] = list;
+	end
+end
 
 local DebuffFilter = {};
 -- settings for the current player
@@ -126,6 +152,14 @@ DebuffFilter.Orientation = {
 	top = { point="BOTTOM", relpoint="TOP", x=0, y=2, next_time="bottom" },
 	left = { point="RIGHT", relpoint="LEFT", x=-4, y=0, next_time="right" },
 	right = { point="LEFT", relpoint="RIGHT", x=4, y=0, next_time="left" },
+}
+
+-- orden del ciclo de crecimiento con shift+clic derecho
+DebuffFilter.NextGrow = {
+	rightdown = "rightup",
+	rightup = "leftdown",
+	leftdown = "leftup",
+	leftup = "rightdown",
 }
 
 DebuffFilter.Frames = {
@@ -163,6 +197,8 @@ local function DebuffFilter_Initialize(self)
 
 	-- grab settings for current player
 	DebuffFilter_PlayerConfig = DebuffFilter_Config[DebuffFilter_Player];
+
+	DebuffFilter_BuildDefaultLists();
 
 	for k, v in pairs(DebuffFilter_PlayerConfig) do
 		if (DebuffFilter_DefaultSettings[k] == nil) then
@@ -252,6 +288,19 @@ end
 function DebuffFilter_OnMouseDown(self, button)
 	if (button == "LeftButton" and IsShiftKeyDown()) then
 		self:GetParent():StartMoving();
+	-- shift+clic derecho: la ayuda y el README lo anunciaban, pero no existia
+	elseif (button == "RightButton" and IsShiftKeyDown()) then
+		local frame = self:GetParent():GetName();
+		local frameitem = DebuffFilter.Frames[frame];
+		if (not frameitem) then return; end
+		local layout = DebuffFilter_PlayerConfig[frameitem.layout_key];
+
+		layout.grow = DebuffFilter.NextGrow[layout.grow] or "rightdown";
+		DebuffFilter_UpdateLayout(frame);
+		if (DebuffFilterOptionsFrame:IsVisible()) then
+			DebuffFilterOptions_GetLayout();
+		end
+		DebuffFilter_Print(frameitem.name .. " grow direction: " .. layout.grow);
 	elseif (button == "RightButton" and IsControlKeyDown()) then
 		local next_time;
 		local frame = self:GetParent():GetName();
@@ -277,6 +326,8 @@ end
 function DebuffFilter_OnMouseUp(self, button)
 	if (button == "LeftButton") then
 		self:GetParent():StopMovingOrSizing();
+		-- guardar al soltar: si el juego se cierra mal no llega PLAYER_LOGOUT
+		DebuffFilter_SavePositions();
 	end
 end
 
@@ -550,6 +601,8 @@ end
 -- taken from ctmod
 function DebuffFilter_SetTime(button, time)
 	time = floor(time or 0);
+	-- el aura puede seguir un instante despues de vencer; sin esto se veia "00:0-1"
+	if (time < 0) then time = 0; end
 
 	local min, sec;
 
@@ -731,6 +784,9 @@ end
 -- save each frame's current position to SavedVariables so it persists across sessions
 function DebuffFilter_SavePositions()
 	if not DebuffFilter_PlayerConfig then return end
+	if not DebuffFilter_PlayerConfig.positions then
+		DebuffFilter_PlayerConfig.positions = {};
+	end
 	local positions = DebuffFilter_PlayerConfig.positions;
 	for k in pairs(DebuffFilter.Frames) do
 		local frame = _G[k];

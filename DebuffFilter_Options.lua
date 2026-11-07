@@ -29,7 +29,17 @@ function DebuffFilterOptions_Initialize()
 
 	UIPanelWindows["DebuffFilterOptionsFrame"] = {area = "center", pushable = 0, whileDead = 1}
 	DebuffFilterOptions_UpdateItems();
-	DebuffFilterOptions_Title:SetText("Debuff Filter " .. GetAddOnMetadata("DebuffFilter", "Version"));
+	DebuffFilterOptions_Title:SetText(DebuffFilterOptions_TitleText());
+end
+
+-- si la carpeta no se llama "DebuffFilter" la version llega nil y el
+-- concatenado cortaba toda la inicializacion
+function DebuffFilterOptions_TitleText()
+	local version = GetAddOnMetadata("DebuffFilter", "Version");
+	if version then
+		return "Debuff Filter " .. version;
+	end
+	return "Debuff Filter";
 end
 
 function DebuffFilterOptions_TargetDropDown_OnLoad(self)
@@ -120,15 +130,21 @@ end
 
 -- taken from bongos
 function DebuffFilterOptions_SetScale(scale)
-	local ratio, x, y;
+	local ratio, left, top;
+
+	-- el slider puede disparar OnValueChanged antes de cargar la config
+	if (not DebuffFilter_PlayerConfig) then return; end
 
 	DebuffFilter_PlayerConfig.scale = scale;
 	ratio = DebuffFilterFrame:GetScale() / scale
 
 	for k in pairs(DebuffFilterOptions.Frames) do
-		x, y = _G[k]:GetLeft() * ratio, _G[k]:GetTop() * ratio;
-		_G[k]:ClearAllPoints();
-		_G[k]:SetPoint("TOPLEFT", UIParent, "BOTTOMLEFT", x, y);
+		-- un marco que nunca se dibujo devuelve nil (p. ej. con "solo en combate")
+		left, top = _G[k]:GetLeft(), _G[k]:GetTop();
+		if (left and top) then
+			_G[k]:ClearAllPoints();
+			_G[k]:SetPoint("TOPLEFT", UIParent, "BOTTOMLEFT", left * ratio, top * ratio);
+		end
 	end
 
 	DebuffFilterFrame:SetScale(scale);
@@ -181,11 +197,14 @@ function DebuffFilterOptions_ScrollFrame_Update()
 end
 
 function DebuffFilterOptions_ModifyLayout(type, value, id)
+	if (not DebuffFilter_PlayerConfig) then return; end
+
 	if (type == "grow") then
 		DebuffFilter_PlayerConfig[DebuffFilterOptions.layout].grow = value;
 		UIDropDownMenu_SetSelectedID(DebuffFilterOptions_GrowDropDown, id);
 	else
-		DebuffFilter_PlayerConfig[DebuffFilterOptions.layout].per_row = value;
+		-- el slider puede dar 2.9999; per_row se usa en mod() y debe ser entero
+		DebuffFilter_PlayerConfig[DebuffFilterOptions.layout].per_row = floor(value + 0.5);
 	end
 
 	for k, v in pairs(DebuffFilterOptions.Frames) do
@@ -273,6 +292,7 @@ end
 
 -- modify per-frame scale for the currently selected target/type
 function DebuffFilterOptions_ModifyFrameScale(scale)
+	if (not DebuffFilter_PlayerConfig) then return; end
 	DebuffFilter_PlayerConfig[DebuffFilterOptions.layout].scale = scale;
 
 	for k, v in pairs(DebuffFilterOptions.Frames) do
@@ -458,7 +478,7 @@ function DebuffFilterOptions_ApplyArcaneTheme()
 		fs:SetTextColor(1.0, 0.84, 0.0);  -- FFD700
 		fs:SetShadowColor(0.0, 0.0, 0.0, 1.0);
 		fs:SetShadowOffset(1, -1);
-		fs:SetText("Debuff Filter " .. GetAddOnMetadata("DebuffFilter", "Version"));
+		fs:SetText(DebuffFilterOptions_TitleText());
 	end
 
 	-- Hide the original XML FontString so it doesn't conflict
