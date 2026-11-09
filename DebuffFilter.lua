@@ -20,99 +20,96 @@ local DebuffFilter_DefaultSettings = {
 	combat = false,
 	tooltips = false,
 	lock = false,
-	-- se llenan en DebuffFilter_BuildDefaultLists() con el nombre en el idioma del cliente
+
 	debuff_list = {},
 	buff_list = {},
 	pdebuff_list = {},
 	pbuff_list = {},
 	fdebuff_list = {},
 	fbuff_list = {},
-	-- saved frame positions (TOPLEFT anchor relative to UIParent BOTTOMLEFT)
+
 	positions = {},
 }
 
--- Listas de fabrica por ID de hechizo. GetSpellInfo devuelve el nombre en el
--- idioma del cliente, asi la misma version sirve en ingles, ruso, etc.
 local DebuffFilter_DefaultSpells = {
 	debuff_list = {
-		7386,  -- Sunder Armor
-		770,   -- Faerie Fire
-		16231, -- Curse of Recklessness
-		6343,  -- Thunder Clap
-		8647,  -- Expose Armor
+		7386,
+		770,
+		16231,
+		6343,
+		8647,
 	},
 	buff_list = {
-		48707, -- Anti-Magic Shell
-		18499, -- Berserker Rage
-		46924, -- Bladestorm
-		45182, -- Cheating Death
-		31224, -- Cloak of Shadows
-		19263, -- Deterrence
-		47585, -- Dispersion
-		64205, -- Divine Sacrifice
-		5277,  -- Evasion
-		44544, -- Fingers of Frost
-		8178,  -- Grounding Totem Effect
-		1044,  -- Hand of Freedom
-		1022,  -- Hand of Protection
-		6940,  -- Hand of Sacrifice
-		45438, -- Ice Block
-		48792, -- Icebound Fortitude
-		3411,  -- Intervene
-		49039, -- Lichborne
-		62305, -- Master's Call
-		33206, -- Pain Suppression
-		17,    -- Power Word: Shield
-		69369, -- Predator's Swiftness
-		1719,  -- Recklessness
-		20230, -- Retaliation
-		53480, -- Roar of Sacrifice
-		53659, -- Sacred Cleansing
-		51713, -- Shadow Dance
-		2565,  -- Shield Block
-		871,   -- Shield Wall
-		23920, -- Spell Reflection
+		48707,
+		18499,
+		46924,
+		45182,
+		31224,
+		19263,
+		47585,
+		64205,
+		5277,
+		44544,
+		8178,
+		1044,
+		1022,
+		6940,
+		45438,
+		48792,
+		3411,
+		49039,
+		62305,
+		33206,
+		17,
+		69369,
+		1719,
+		20230,
+		53480,
+		53659,
+		51713,
+		2565,
+		871,
+		23920,
 	},
 	pdebuff_list = {
-		19434, -- Aimed Shot
-		12294, -- Mortal Strike
-		57975, -- Wound Poison VII
+		19434,
+		12294,
+		57975,
 	},
 	pbuff_list = {
-		5118,  -- Aspect of the Cheetah
-		61846, -- Aspect of the Dragonhawk
-		34074, -- Aspect of the Viper
-		31884, -- Avenging Wrath
-		53563, -- Beacon of Light
-		50334, -- Berserk
-		54428, -- Divine Plea
-		47585, -- Dispersion
-		498,   -- Divine Protection
-		64205, -- Divine Sacrifice
-		1044,  -- Hand of Freedom
-		1022,  -- Hand of Protection
-		71401, -- Icy Rage
-		3411,  -- Intervene
-		54149, -- Infusion of Light
-		62305, -- Master's Call
-		67708, -- Paragon
-		75456, -- Piercing Twilight
-		3045,  -- Rapid Fire
-		20178, -- Reckoning
-		53480, -- Roar of Sacrifice
-		53601, -- Sacred Shield
-		55775, -- Swordguard Embroidery
-		52127, -- Water Shield
+		5118,
+		61846,
+		34074,
+		31884,
+		53563,
+		50334,
+		54428,
+		47585,
+		498,
+		64205,
+		1044,
+		1022,
+		71401,
+		3411,
+		54149,
+		62305,
+		67708,
+		75456,
+		3045,
+		20178,
+		53480,
+		53601,
+		55775,
+		52127,
 	},
 	fdebuff_list = {
-		12294, -- Mortal Strike
+		12294,
 	},
 	fbuff_list = {
-		6346,  -- Fear Ward
+		6346,
 	},
 }
 
--- arma las listas de fabrica; solo se usan para personajes sin config guardada
 local function DebuffFilter_BuildDefaultLists()
 	for list_key, ids in pairs(DebuffFilter_DefaultSpells) do
 		local list = {};
@@ -127,11 +124,9 @@ local function DebuffFilter_BuildDefaultLists()
 end
 
 local DebuffFilter = {};
--- settings for the current player
+
 local DebuffFilter_PlayerConfig;
 
--- deep copy utility to avoid shared references between defaults and player config
--- global so the options module can use it for profile copy/import
 function DebuffFilter_DeepCopy(orig)
 	if type(orig) ~= "table" then return orig end
 	local copy = {}
@@ -141,8 +136,6 @@ function DebuffFilter_DeepCopy(orig)
 	return copy
 end
 
--- the direction that debuffs/buffs are organized, what side their time is on,
--- and what side the number of debuffs/buffs is placed
 DebuffFilter.Orientation = {
 	rightdown = { point="LEFT", relpoint="RIGHT", x=4, y=0 },
 	rightup = { point="LEFT", relpoint="RIGHT", x=4, y=0 },
@@ -154,7 +147,6 @@ DebuffFilter.Orientation = {
 	right = { point="LEFT", relpoint="RIGHT", x=4, y=0, next_time="left" },
 }
 
--- orden del ciclo de crecimiento con shift+clic derecho
 DebuffFilter.NextGrow = {
 	rightdown = "rightup",
 	rightup = "leftdown",
@@ -171,10 +163,8 @@ DebuffFilter.Frames = {
 	DebuffFilter_FBuffFrame = { option_key="fbuffs", list_key="fbuff_list", layout_key="fbuff_layout", name="focus buff", all_cmd="allfb", button="DebuffFilter_FBuffButton", isdebuff=false, target="focus" },
 }
 
--- global variable that options module can access
 DebuffFilterFrames = DebuffFilter.Frames;
 
--- stores already seen debuffs/buffs so that they can be combined and stacked
 DebuffFilter.Stacks = {
 	debuffs = {},
 	buffs = {},
@@ -195,7 +185,6 @@ local function DebuffFilter_Initialize(self)
 		DebuffFilter_Config[DebuffFilter_Player] = {};
 	end
 
-	-- grab settings for current player
 	DebuffFilter_PlayerConfig = DebuffFilter_Config[DebuffFilter_Player];
 
 	DebuffFilter_BuildDefaultLists();
@@ -212,7 +201,6 @@ local function DebuffFilter_Initialize(self)
 		end
 	end
 
-	-- ensure per-frame scale exists in saved layouts (upgrade from old configs)
 	for k, v in pairs(DebuffFilter.Frames) do
 		local layout = DebuffFilter_PlayerConfig[v.layout_key];
 		if layout and layout.scale == nil then
@@ -234,25 +222,21 @@ local function DebuffFilter_Initialize(self)
 			end
 		end
 
-		-- hide a frame that the player unchecked
 		if (not DebuffFilter_PlayerConfig[v.option_key]) then
 			_G[k]:Hide();
 		end
 
-		-- show number of debuffs/buffs if player has it checked
 		if (DebuffFilter_PlayerConfig.count) then
 			_G[k .. "Count"]:Show();
 		end
 
 		DebuffFilter_SetCountOrientation(layout, k);
-		-- apply per-frame scale
+
 		DebuffFilter_ApplyFrameScale(k, layout.scale or 1.0);
-		-- display the frame and its debuffs/buffs
+
 		DebuffFilter_Frame_Update(k);
 	end
 
-	-- restore saved frame positions AFTER all scales have been applied,
-	-- so ApplyFrameScale does not shift the restored coordinates
 	local savedPos = DebuffFilter_PlayerConfig.positions;
 	if savedPos then
 		for k, pos in pairs(savedPos) do
@@ -288,7 +272,7 @@ end
 function DebuffFilter_OnMouseDown(self, button)
 	if (button == "LeftButton" and IsShiftKeyDown()) then
 		self:GetParent():StartMoving();
-	-- shift+clic derecho: la ayuda y el README lo anunciaban, pero no existia
+
 	elseif (button == "RightButton" and IsShiftKeyDown()) then
 		local frame = self:GetParent():GetName();
 		local frameitem = DebuffFilter.Frames[frame];
@@ -307,8 +291,6 @@ function DebuffFilter_OnMouseDown(self, button)
 		local layout_key = DebuffFilter.Frames[frame].layout_key;
 		local layout = DebuffFilter_PlayerConfig[layout_key];
 
-		-- switch position of the debuffs/buffs time, if it's bottom make it top
-		-- if there's only 1 per row, switch it to left or right side
 		if (layout.per_row == 1) then
 			next_time = DebuffFilter.Orientation[layout.time_lr].next_time;
 			layout.time_lr = next_time;
@@ -317,7 +299,6 @@ function DebuffFilter_OnMouseDown(self, button)
 			layout.time_tb = next_time;
 		end
 
-		-- reposition the times for the debuffs/buffs of a certain frame
 		DebuffFilter_SetTimeOrientation(next_time, DebuffFilter.Frames[frame].button);
 		DebuffFilter_Print(DebuffFilter.Frames[frame].name .. " time orientation: " .. next_time);
 	end
@@ -326,13 +307,13 @@ end
 function DebuffFilter_OnMouseUp(self, button)
 	if (button == "LeftButton") then
 		self:GetParent():StopMovingOrSizing();
-		-- guardar al soltar: si el juego se cierra mal no llega PLAYER_LOGOUT
+
 		DebuffFilter_SavePositions();
 	end
 end
 
 function DebuffFilter_OnLoad(self)
-	-- get name of current player in order to load its settings
+
 	DebuffFilter_Player = (UnitName("player").." - "..GetRealmName());
 	self:RegisterEvent("VARIABLES_LOADED");
 	self:RegisterEvent("PLAYER_LOGIN");
@@ -348,9 +329,9 @@ function DebuffFilter_Button_OnLoad(self)
 	self.icon = _G[name .. "Icon"];
 	self.time = _G[name .. "Duration"];
 	self.cooldown = _G[name .. "Cooldown"];
-	-- current number of debuff/buff's stack
+
 	self.count = _G[name .. "Count"];
-	-- number of same debuffs/buffs that are combined
+
 	self.count2 = _G[name .. "Count2"];
 	self.border = _G[name .. "Border"];
 	self.update = 0;
@@ -363,7 +344,6 @@ function DebuffFilter_ShowButton(button, index, texture, applications, duration,
 	button.target = target;
 	button.icon:SetTexture(texture);
 
-	-- show stack number of a debuff/buff
 	if (applications > 1) then
 		button.count:SetText(applications);
 		button.count:Show();
@@ -371,8 +351,6 @@ function DebuffFilter_ShowButton(button, index, texture, applications, duration,
 		button.count:Hide();
 	end
 
-	-- show time remaining for a debuff/buff, if it exists, as a time
-	-- or display it as a cooldown on the debuff/buff itself similar to a clock
 	if (duration and duration > 0) then
 		if (not DebuffFilter_PlayerConfig.cooldowncount) then
 			DebuffFilter_SetTime(button, expiretime-GetTime());
@@ -384,7 +362,6 @@ function DebuffFilter_ShowButton(button, index, texture, applications, duration,
 		button.time:Hide();
 		button.cooldown:Hide();
 
-		-- dunno what this is for, maybe addon OmniCC?
 		if (button.timer) then
 			button.timer:Hide();
 		end
@@ -394,14 +371,7 @@ function DebuffFilter_ShowButton(button, index, texture, applications, duration,
 end
 
 function DebuffFilter_Frame_Update(framename)
-	-- GUARDA DE ARRANQUE (agregada):
-	-- DebuffFilter_PlayerConfig se crea en DebuffFilter_Initialize(), que
-	-- corre en VARIABLES_LOADED. Pero UNIT_AURA ya esta registrado antes y
-	-- puede disparar primero — al entrar al mundo, con los buffs propios.
-	-- Ahi esta funcion indexaba una tabla nil y tiraba:
-	--   "attempt to index upvalue 'DebuffFilter_PlayerConfig' (a nil value)"
-	-- El propio addon ya usa esta bandera en otros lados (lineas 513 y 899),
-	-- asi que se sigue el mismo criterio.
+
 	if (not DebuffFilter_VariablesLoaded) or (not DebuffFilter_PlayerConfig) then
 		return;
 	end
@@ -413,7 +383,7 @@ function DebuffFilter_Frame_Update(framename)
 	if (not DebuffFilter_PlayerConfig[option_key]) then
 		return;
 	end
-	
+
 	local button;
 	local buttonname = frameitem.button;
 	local name, texture, applications, debufftype, duration, expiretime, caster, ismine;
@@ -423,7 +393,6 @@ function DebuffFilter_Frame_Update(framename)
 	local targetisplayer = target == "player";
 	local already_seen_debuffs = DebuffFilter.Stacks[option_key];
 
-	-- iterate through every debuff/buff player has and perhaps display it
 	local i = 1;
 	if isdebuff then
 		name, _, texture, applications, debufftype, duration, expiretime, caster = UnitDebuff(target, i);
@@ -431,65 +400,58 @@ function DebuffFilter_Frame_Update(framename)
 		name, _, texture, applications, debufftype, duration, expiretime, caster = UnitBuff(target, i);
 	end
 	while texture do
-		-- if we are not dealing with the current player's debuffs/buffs,
-		-- check that the current debuff/buff was applied by the current player
+
 		if not targetisplayer then
 			ismine = caster == "player";
 		end
-	
-		-- display number of debuffs/buffs raider has
+
 		_G[framename .. "Count"]:SetText(i);
-		
-		-- check if current debuff/buff is on list of debuffs/buffs to display
+
 		local debuff = DebuffFilter_PlayerConfig[frameitem.list_key][name];
-		
-		-- check if we are to display all debuffs/buffs
+
 		local all_debuffs;
 		if frameitem.all_cmd then
 			all_debuffs = DebuffFilter_PlayerConfig["all_" .. option_key]
 		end
-		
+
 		if debuff or all_debuffs then
-			-- dont need to know these settings if we are displaying all debuffs/buffs
+
 			if all_debuffs == nil or not all_debuffs then
-				-- show only debuff/buff current player applied
+
 				selfapplied = debuff.selfapplied;
-				-- dont combine same debuff/buff from different players into one
+
 				dontcombine = debuff.dontcombine;
 				texturefilter = debuff.texture;
 			else
-				-- reset per-entry flags so previous iteration values don't bleed through
+
 				selfapplied = nil;
 				dontcombine = nil;
 				texturefilter = nil;
 			end
-			
-			-- if texture field is not nil, look for a match with the name of debuff/buff's texture
-			-- problem with this, is that i have seen spells who have texture names that are much different than the spell name
+
 			if (targetisplayer or (not selfapplied or ismine)) and (not texturefilter or string.match(texture, texturefilter)) then
 				nametexture = name .. texture;
 
 				if (not dontcombine and already_seen_debuffs[nametexture]) then
 					button = _G[buttonname .. already_seen_debuffs[nametexture]];
-				
+
 					DebuffFilter_CombineStacks(button);
 
 					if (targetisplayer or ismine) then
 						DebuffFilter_ShowButton(button, i, texture, applications, duration, expiretime, target);
 					end
 				else
-					-- assume it sets the color of the border of the debuff, but I can't find
-					-- the DebuffTypeColor list anywhere
+
 					if isdebuff then
 						if (debufftype) then
 							color = DebuffTypeColor[debufftype];
 						else
 							color = DebuffTypeColor["none"];
 						end
-					end	
+					end
 
 					width = width + 1;
-			
+
 					button = _G[buttonname .. width];
 
 					if (not button) then
@@ -499,12 +461,10 @@ function DebuffFilter_Frame_Update(framename)
 							button = CreateFrame("Button", buttonname .. width, _G[framename], "DebuffFilter_BuffButtonTemplate");
 						end
 						button:EnableMouse(not DebuffFilter_PlayerConfig.lock);
-						-- set the position of the button, and its time
+
 						DebuffFilter_SetButtonLayout(DebuffFilter_PlayerConfig[frameitem.layout_key], framename, button, width);
 					end
 
-					-- make time visible and have it updated every second, if debuff/buff has a time, and if
-					-- user does not want the cooldown appearing on debuff/buff, similar to a clock
 					if duration and duration > 0 and not DebuffFilter_PlayerConfig.cooldowncount and not button.isTimeVisible then
 						button:SetScript("OnUpdate",DebuffFilter_Button_OnUpdate);
 						button.isTimeVisible = true;
@@ -512,7 +472,7 @@ function DebuffFilter_Frame_Update(framename)
 						button:SetScript("OnUpdate",nil);
 						button.isTimeVisible = false;
 					end
-					
+
 					if isdebuff then button.border:SetVertexColor(color.r, color.g, color.b) end
 					button.count2:SetText("");
 					DebuffFilter_ShowButton(button, i, texture, applications, duration, expiretime, target);
@@ -529,7 +489,6 @@ function DebuffFilter_Frame_Update(framename)
 		end
 	end
 
-	-- hide remaining buttons that were visible from before
 	i = width + 1;
 	button = _G[buttonname .. i];
 	while button do
@@ -542,7 +501,6 @@ function DebuffFilter_Frame_Update(framename)
 		_G[framename .. "Count"]:SetText("");
 	end
 
-	-- better to reuse this table then use up memory by creating a new one
 	for k in pairs(already_seen_debuffs) do
 		already_seen_debuffs[k] = nil;
 	end
@@ -580,8 +538,6 @@ function DebuffFilter_OnEvent(self, event, ...)
 	end
 end
 
--- update time on debuff/buff every second, while loop is used to make sure, that if the players 
--- framerate is very low, it'll still do the updates as many times as needed
 function DebuffFilter_Button_OnUpdate(self, elapsed)
 
 	self.update = self.update + elapsed;
@@ -592,16 +548,14 @@ function DebuffFilter_Button_OnUpdate(self, elapsed)
 	end
 end
 
--- increment number after combining two of the same debuffs/buffs
 function DebuffFilter_CombineStacks(button)
 	local total = (tonumber(button.count2:GetText()) or 1) + 1;
 	button.count2:SetText(total);
 end
 
--- taken from ctmod
 function DebuffFilter_SetTime(button, time)
 	time = floor(time or 0);
-	-- el aura puede seguir un instante despues de vencer; sin esto se veia "00:0-1"
+
 	if (time < 0) then time = 0; end
 
 	local min, sec;
@@ -626,7 +580,6 @@ function DebuffFilter_SetTime(button, time)
 	button.time:SetText(min .. ":" .. sec);
 end
 
--- reposition or redraw frame's debuffs/buffs after options have been changed
 function DebuffFilter_UpdateLayout(frame)
 	local button;
 	local name = DebuffFilter.Frames[frame].button;
@@ -638,15 +591,14 @@ function DebuffFilter_UpdateLayout(frame)
 	while button do
 		button:ClearAllPoints();
 		DebuffFilter_SetButtonLayout(layout, frame, button, i);
-	
+
 		i = i + 1;
 		button = _G[name .. i];
 	end
-	
+
 	DebuffFilter_SetCountOrientation(layout, frame);
 end
 
--- set the location of a debuff/buff and the location of its time
 function DebuffFilter_SetButtonLayout(layout, frame, button, index)
 	local point, relpoint, x, y;
 	local grow = layout.grow;
@@ -656,7 +608,6 @@ function DebuffFilter_SetButtonLayout(layout, frame, button, index)
 	point, relpoint = DebuffFilter.Orientation[grow].point, DebuffFilter.Orientation[grow].relpoint;
 	x, y = DebuffFilter.Orientation[grow].x, DebuffFilter.Orientation[grow].y;
 
-	-- place time to the left or right of debuff/buff if debuffs/buffs are arranged vertically
 	if (per_row == 1 or DebuffFilter_PlayerConfig.cooldowncount) then
 		offset = 4;
 		DebuffFilter_SetTimeOrientation(layout.time_lr, button);
@@ -665,7 +616,7 @@ function DebuffFilter_SetButtonLayout(layout, frame, button, index)
 	end
 
 	if (index > 1) then
-		-- start a new row if the current one has enough debuffs/buffs
+
 		if (mod(index, per_row) == 1 or per_row == 1) then
 			if (layout.grow == "rightdown" or layout.grow == "leftdown") then
 				button:SetPoint("TOP", DebuffFilter.Frames[frame].button .. (index-per_row), "BOTTOM", 0, -offset);
@@ -687,11 +638,10 @@ function DebuffFilter_SetTimeOrientation(orientation, button)
 	point, relpoint = DebuffFilter.Orientation[orientation].point, DebuffFilter.Orientation[orientation].relpoint;
 	x, y = DebuffFilter.Orientation[orientation].x, DebuffFilter.Orientation[orientation].y;
 
-	-- set the position of the time, somewhere around the debuff/buff
 	if (button.time) then
 		button.time:ClearAllPoints();
 		button.time:SetPoint(point, button, relpoint, x, y);
-	-- set the positions of the times for the debuffs/buffs of a certain frame
+
 	else
 		local time;
 		local name = button;
@@ -702,7 +652,7 @@ function DebuffFilter_SetTimeOrientation(orientation, button)
 		while time do
 			time:ClearAllPoints();
 			time:SetPoint(point, button, relpoint, x, y);
-			
+
 			i = i + 1;
 			button = name .. i;
 			time = _G[button .. "Duration"];
@@ -710,7 +660,6 @@ function DebuffFilter_SetTimeOrientation(orientation, button)
 	end
 end
 
--- set the location for the number of debuffs/buffs for the frame
 function DebuffFilter_SetCountOrientation(layout, frame)
 	local grow = layout.grow;
 	local per_row = layout.per_row;
@@ -733,8 +682,6 @@ function DebuffFilter_SetCountOrientation(layout, frame)
 	end
 end
 
--- lock the frames, so they cannot be moved, or unlock them
--- also allows mouse events to pass through debuffs/buffs if locked
 function DebuffFilter_LockFrames(lock)
 	local button;
 
@@ -745,15 +692,13 @@ function DebuffFilter_LockFrames(lock)
 		button = _G[v.button .. i];
 		while button do
 			button:EnableMouse(not lock);
-			
+
 			i = i + 1;
 			button = _G[v.button .. i];
 		end
 	end
 end
 
--- apply individual scale to a specific frame (independent of global scale)
--- compensates position so the frame stays in place, same as global scale
 function DebuffFilter_ApplyFrameScale(framename, scale)
 	local frame = _G[framename];
 	if not frame then return end
@@ -771,7 +716,6 @@ function DebuffFilter_ApplyFrameScale(framename, scale)
 	frame:SetScale(scale);
 end
 
--- set the individual scale for a frame type, called from options
 function DebuffFilter_SetFrameScale(framename, layout_key, scale)
 	DebuffFilter_PlayerConfig[layout_key].scale = scale;
 	DebuffFilter_ApplyFrameScale(framename, scale);
@@ -781,7 +725,6 @@ function DebuffFilter_Print(msg)
 	DEFAULT_CHAT_FRAME:AddMessage("|cff4fc3f7[Debuff Filter]|r " .. msg);
 end
 
--- save each frame's current position to SavedVariables so it persists across sessions
 function DebuffFilter_SavePositions()
 	if not DebuffFilter_PlayerConfig then return end
 	if not DebuffFilter_PlayerConfig.positions then
@@ -798,7 +741,7 @@ function DebuffFilter_SavePositions()
 end
 
 function DebuffFilter_Options(opt)
-	-- Hide or show the frame the user just checked/unchecked
+
 	if (opt == "debuffs" or opt == "buffs" or opt == "pdebuffs" or opt == "pbuffs" or opt == "fdebuffs" or opt == "fbuffs") then
 		for k, v in pairs(DebuffFilter.Frames) do
 			if (v.option_key == opt) then
@@ -814,7 +757,7 @@ function DebuffFilter_Options(opt)
 				break;
 			end
 		end
-	-- hide or show the number of debuffs/buffs for each frame, including the ones not shown
+
 	elseif (opt == "count") then
 		if (DebuffFilter_PlayerConfig.count) then
 			DebuffFilter_PlayerConfig.count = false;
@@ -841,11 +784,11 @@ function DebuffFilter_Options(opt)
 					if (button.timer) then
 						button.timer:Hide();
 					end
-				
+
 					i = i + 1;
 					button = _G[v.button .. i];
 				end
-				
+
 				DebuffFilter_UpdateLayout(k);
 				DebuffFilter_Frame_Update(k);
 			end
@@ -856,16 +799,16 @@ function DebuffFilter_Options(opt)
 				button = _G[v.button .. i];
 				while button do
 					button.time:Hide();
-					
+
 					i = i + 1;
 					button = _G[v.button .. i];
 				end
-				
+
 				DebuffFilter_UpdateLayout(k);
 				DebuffFilter_Frame_Update(k);
 			end
 		end
-	-- decides if frames are shown out of combat
+
 	elseif (opt == "combat") then
 		if (DebuffFilter_PlayerConfig.combat) then
 			DebuffFilter_PlayerConfig.combat = false;
@@ -894,7 +837,7 @@ function DebuffFilter_Options(opt)
 			DebuffFilter_PlayerConfig.lock = true;
 			DebuffFilter_LockFrames(true);
 		end
-	-- decides if backdrops are shown, which allows frames to be moved
+
 	elseif (opt == "backdrop") then
 		if (DebuffFilter.backdrop) then
 			DebuffFilter.backdrop = false;
@@ -913,7 +856,6 @@ end
 function DebuffFilter_Command(cmd)
 	cmd = string.lower(cmd);
 
-	-- decides if all player debuffs, all focus debuffs, or all focus buffs are shown
 	if (cmd == "allpd" or cmd == "allfd" or cmd == "allfb") then
 		for k, v in pairs(DebuffFilter.Frames) do
 			if (v.all_cmd == cmd) then
@@ -933,7 +875,7 @@ function DebuffFilter_Command(cmd)
 			end
 		end
 	elseif (cmd == "resetpos") then
-		-- clear saved positions so they don't override the reset on next login
+
 		if DebuffFilter_PlayerConfig and DebuffFilter_PlayerConfig.positions then
 			for k in pairs(DebuffFilter_PlayerConfig.positions) do
 				DebuffFilter_PlayerConfig.positions[k] = nil;

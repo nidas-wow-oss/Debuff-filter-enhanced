@@ -1,14 +1,4 @@
-﻿--[[
-mwayne@cox.net for translations, thanks! 
-
-cwow-BG1-安威玛尔-萌萌兽: zhCN/zhTW
-Juido: deDE
-Nya: frFR
-usy820127: koKR
-]]
-   
-
-DFILTER_BACKDROP_TOOLTIP = "Shift+left click to move.\nShift+right click to change grow direction.\nCtrl+right click to change time orientation."
+﻿DFILTER_BACKDROP_TOOLTIP = "Shift+left click to move.\nShift+right click to change grow direction.\nCtrl+right click to change time orientation."
 
 DFILTER_OPTIONS_TARGET = "Target:"
 DFILTER_OPTIONS_GROW = "Grow:"

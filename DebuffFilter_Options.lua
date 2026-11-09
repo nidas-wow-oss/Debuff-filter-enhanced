@@ -1,18 +1,15 @@
 local DebuffFilterOptions = {};
--- settings for the current player
+
 local DebuffFilter_PlayerConfig;
 
--- list of debuffs/buffs, used to display in options screen
 DebuffFilterOptions.items = {};
 
--- prefix for string needed to grab proper list of debuffs/buffs
 DebuffFilterOptions.target = "";
--- suffix for string needed to grab proper list of debuffs/buffs
+
 DebuffFilterOptions.type = "debuff";
 
 DebuffFilterOptions.Frames = DebuffFilterFrames;
 
--- direction that debuffs/buffs are positioned
 DebuffFilterOptions.LayoutTable = {
 	rightdown = {1, "Right-Down"},
 	rightup = {2, "Right-Up"},
@@ -20,11 +17,10 @@ DebuffFilterOptions.LayoutTable = {
 	leftup = {4, "Left-Up"},
 }
 
--- debuff/buff that is selected in options screen
 DebuffFilterOptions_Selection = "";
 
 function DebuffFilterOptions_Initialize()
-	-- DebuffFilter_Player is a global variable taken from DebuffFilter.lua
+
 	DebuffFilter_PlayerConfig = DebuffFilter_Config[DebuffFilter_Player];
 
 	UIPanelWindows["DebuffFilterOptionsFrame"] = {area = "center", pushable = 0, whileDead = 1}
@@ -32,8 +28,6 @@ function DebuffFilterOptions_Initialize()
 	DebuffFilterOptions_Title:SetText(DebuffFilterOptions_TitleText());
 end
 
--- si la carpeta no se llama "DebuffFilter" la version llega nil y el
--- concatenado cortaba toda la inicializacion
 function DebuffFilterOptions_TitleText()
 	local version = GetAddOnMetadata("DebuffFilter", "Version");
 	if version then
@@ -74,7 +68,6 @@ function DebuffFilterOptions_TargetDropDown_OnClick(self)
 	UIDropDownMenu_SetSelectedID(DebuffFilterOptions_TargetDropDown, self:GetID());
 	DebuffFilterOptions.target = self.value;
 
-	-- dont show self applied option if debuffs/buffs on self are shown
 	if (self.value ~= "p") then
 		DebuffFilterOptions_CheckButtonSelfApplied:Show();
 	else
@@ -91,7 +84,6 @@ function DebuffFilterOptions_GrowDropDown_OnLoad(self)
 	self.tooltipText = DFILTER_OPTIONS_GROW_TOOLTIP;
 end
 
--- direction that debuffs/buffs are positioned
 function DebuffFilterOptions_GrowDropDown_Initialize()
 	local info = {};
 	info.text = "Right-Down";
@@ -128,18 +120,16 @@ function DebuffFilterOptions_Tab_OnClick(type)
 	DebuffFilterOptions_ClearSelection();
 end
 
--- taken from bongos
 function DebuffFilterOptions_SetScale(scale)
 	local ratio, left, top;
 
-	-- el slider puede disparar OnValueChanged antes de cargar la config
 	if (not DebuffFilter_PlayerConfig) then return; end
 
 	DebuffFilter_PlayerConfig.scale = scale;
 	ratio = DebuffFilterFrame:GetScale() / scale
 
 	for k in pairs(DebuffFilterOptions.Frames) do
-		-- un marco que nunca se dibujo devuelve nil (p. ej. con "solo en combate")
+
 		left, top = _G[k]:GetLeft(), _G[k]:GetTop();
 		if (left and top) then
 			_G[k]:ClearAllPoints();
@@ -168,7 +158,6 @@ function DebuffFilterOptions_UpdateItems()
 	DebuffFilterOptions.count = #DebuffFilterOptions.items;
 end
 
--- update list of debuffs/buffs and highlight the current selection
 function DebuffFilterOptions_ScrollFrame_Update()
 	local button, name;
 
@@ -203,14 +192,14 @@ function DebuffFilterOptions_ModifyLayout(type, value, id)
 		DebuffFilter_PlayerConfig[DebuffFilterOptions.layout].grow = value;
 		UIDropDownMenu_SetSelectedID(DebuffFilterOptions_GrowDropDown, id);
 	else
-		-- el slider puede dar 2.9999; per_row se usa en mod() y debe ser entero
+
 		DebuffFilter_PlayerConfig[DebuffFilterOptions.layout].per_row = floor(value + 0.5);
 	end
 
 	for k, v in pairs(DebuffFilterOptions.Frames) do
 		if (v.list_key == DebuffFilterOptions.list) then
 			DebuffFilter_UpdateLayout(k);
-			
+
 			break;
 		end
 	end
@@ -223,7 +212,7 @@ function DebuffFilterOptions_ModifyList(arg)
 	local dontcombine = DebuffFilterOptions_CheckButtonDontCombine:GetChecked();
 
 	if (item ~= "") then
-		-- add debuff/buff
+
 		if (arg == "add") then
 			DebuffFilter_PlayerConfig[DebuffFilterOptions.list][item] = {};
 			DebuffFilter_PlayerConfig[DebuffFilterOptions.list][item].selfapplied = selfapplied;
@@ -247,11 +236,10 @@ function DebuffFilterOptions_ModifyList(arg)
 			DebuffFilterOptions_ClearSelection();
 		end
 
-		-- update the frame for the current list of debuffs/buffs
 		for k, v in pairs(DebuffFilterOptions.Frames) do
 			if (v.list_key == DebuffFilterOptions.list) then
 				DebuffFilter_Frame_Update(k);
-				
+
 				break;
 			end
 		end
@@ -260,7 +248,6 @@ function DebuffFilterOptions_ModifyList(arg)
 	end
 end
 
--- clear everything except for checkboxes in settings, and refresh lots of stuff
 function DebuffFilterOptions_ClearSelection()
 	DebuffFilterOptions_Selection = "";
 	DebuffFilterOptions_EditBox:SetText("");
@@ -275,7 +262,6 @@ function DebuffFilterOptions_ClearSelection()
 	DebuffFilterOptions_GetLayout();
 end
 
--- display number of debuffs/buffs per row, how they are positioned, and per-frame scale
 function DebuffFilterOptions_GetLayout()
 	local grow = DebuffFilter_PlayerConfig[DebuffFilterOptions.layout].grow;
 
@@ -284,13 +270,11 @@ function DebuffFilterOptions_GetLayout()
 
 	DebuffFilterOptions_RowSlider:SetValue(DebuffFilter_PlayerConfig[DebuffFilterOptions.layout].per_row);
 
-	-- update per-frame scale slider
 	local frame_scale = DebuffFilter_PlayerConfig[DebuffFilterOptions.layout].scale or 1.0;
 	DebuffFilterOptions_FrameScaleSlider:SetValue(frame_scale);
 	_G[DebuffFilterOptions_FrameScaleSlider:GetName() .. "Text"]:SetText(DFILTER_OPTIONS_FRAME_SCALE .. " (" .. string.format("%.2f", frame_scale) .. ")");
 end
 
--- modify per-frame scale for the currently selected target/type
 function DebuffFilterOptions_ModifyFrameScale(scale)
 	if (not DebuffFilter_PlayerConfig) then return; end
 	DebuffFilter_PlayerConfig[DebuffFilterOptions.layout].scale = scale;
@@ -309,9 +293,6 @@ function DebuffFilterOptions_GetOptions(item)
 	DebuffFilterOptions_EditBox2:SetText(DebuffFilter_PlayerConfig[DebuffFilterOptions.list][item].texture or "");
 end
 
-----------------------------------------------------------------------
--- Serializer: table <-> copyable string
-----------------------------------------------------------------------
 local function DebuffFilter_SerializeValue(val)
 	local t = type(val);
 	if t == "string" then
@@ -352,9 +333,6 @@ local function DebuffFilter_Deserialize(str)
 	return result;
 end
 
-----------------------------------------------------------------------
--- Profiles: copy config from another character on same account
-----------------------------------------------------------------------
 function DebuffFilterOptions_ProfileDropDown_OnLoad(self)
 	UIDropDownMenu_Initialize(self, DebuffFilterOptions_ProfileDropDown_Initialize);
 	UIDropDownMenu_SetWidth(self, 150);
@@ -396,9 +374,6 @@ function DebuffFilterOptions_CopyProfile()
 	ReloadUI();
 end
 
-----------------------------------------------------------------------
--- Export: serialize current config to copyable text
-----------------------------------------------------------------------
 function DebuffFilterOptions_Export()
 	local data = DebuffFilter_Serialize(DebuffFilter_Config[DebuffFilter_Player]);
 
@@ -410,9 +385,6 @@ function DebuffFilterOptions_Export()
 	DebuffFilterOptions_ImportExportButton:Hide();
 end
 
-----------------------------------------------------------------------
--- Import: paste text to overwrite current config
-----------------------------------------------------------------------
 function DebuffFilterOptions_ShowImport()
 	DebuffFilterOptions_ImportExportFrame:Show();
 	DebuffFilterOptions_ImportExportTitle:SetText(DFILTER_IMPORT_TITLE);
@@ -439,13 +411,10 @@ function DebuffFilterOptions_DoImport()
 	DebuffFilterOptions_ImportExportFrame:Hide();
 	ReloadUI();
 end
-----------------------------------------------------------------------
--- ArcaneBlue theme — applied every time the panel is shown
-----------------------------------------------------------------------
+
 function DebuffFilterOptions_ApplyArcaneTheme()
 	local f = DebuffFilterOptionsFrame;
 
-	-- Main panel
 	f:SetBackdrop({
 		bgFile   = "Interface\\Tooltips\\UI-Tooltip-Background",
 		edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
@@ -455,8 +424,6 @@ function DebuffFilterOptions_ApplyArcaneTheme()
 	f:SetBackdropColor(0.028, 0.048, 0.095, 0.97);
 	f:SetBackdropBorderColor(0.22, 0.52, 0.92, 0.95);
 
-	-- Title box: narrow frame protruding above the panel top edge (exact EnemyCooldowns style)
-	-- Create once only
 	if not DebuffFilterOptions_TitleBox then
 		local box = CreateFrame("Frame", "DebuffFilterOptions_TitleBox", DebuffFilterOptionsFrame);
 		box:SetWidth(260);
@@ -472,24 +439,20 @@ function DebuffFilterOptions_ApplyArcaneTheme()
 		box:SetBackdropColor(0.035, 0.065, 0.140, 1.0);
 		box:SetBackdropBorderColor(0.28, 0.68, 1.0, 1.0);
 
-		-- Create a NEW FontString parented to the box itself so it always renders on top
 		local fs = box:CreateFontString("DebuffFilterOptions_TitleFS", "OVERLAY", "GameFontNormalLarge");
 		fs:SetPoint("CENTER", box, "CENTER", 0, 0);
-		fs:SetTextColor(1.0, 0.84, 0.0);  -- FFD700
+		fs:SetTextColor(1.0, 0.84, 0.0);
 		fs:SetShadowColor(0.0, 0.0, 0.0, 1.0);
 		fs:SetShadowOffset(1, -1);
 		fs:SetText(DebuffFilterOptions_TitleText());
 	end
 
-	-- Hide the original XML FontString so it doesn't conflict
 	DebuffFilterOptions_Title:Hide();
 
-	-- Hide the flat texture strip
 	if DebuffFilterOptions_TitleBG then
 		DebuffFilterOptions_TitleBG:Hide();
 	end
 
-	-- List area: background and scrollbar repositioned to far right
 	if not DebuffFilterOptions_ListBG then
 		local bg = DebuffFilterOptions_ListFrame:CreateTexture("DebuffFilterOptions_ListBG", "BACKGROUND");
 		bg:SetPoint("TOPLEFT", DebuffFilterOptions_ListFrame, "TOPLEFT", 5, -5);
@@ -497,7 +460,6 @@ function DebuffFilterOptions_ApplyArcaneTheme()
 		bg:SetTexture(0.04, 0.08, 0.16, 0.85);
 	end
 
-	-- Move scrollbar to the far right edge of the ListFrame
 	local sb = DebuffFilterOptions_ScrollFrameScrollBar;
 	if sb then
 		sb:ClearAllPoints();
@@ -512,18 +474,16 @@ function DebuffFilterOptions_ApplyArcaneTheme()
 	for _, name in ipairs(sliders) do
 		local sl = _G[name];
 		if sl then
-			_G[name .. "Text"]:SetTextColor(0.31, 0.76, 0.97);  -- 4fc3f7
-			_G[name .. "Low"]:SetTextColor(0.67, 0.67, 0.67);   -- aaaaaa
-			_G[name .. "High"]:SetTextColor(0.67, 0.67, 0.67);  -- aaaaaa
+			_G[name .. "Text"]:SetTextColor(0.31, 0.76, 0.97);
+			_G[name .. "Low"]:SetTextColor(0.67, 0.67, 0.67);
+			_G[name .. "High"]:SetTextColor(0.67, 0.67, 0.67);
 		end
 	end
 
-	-- EditBox label colors (the FontStrings above the boxes)
-	-- They are anonymous children; we color by iterating regions of the editboxes
 	local function colorRegions(frame)
 		for _, region in ipairs({frame:GetRegions()}) do
 			if region:GetObjectType() == "FontString" then
-				region:SetTextColor(0.31, 0.76, 0.97);  -- 4fc3f7
+				region:SetTextColor(0.31, 0.76, 0.97);
 			end
 		end
 	end

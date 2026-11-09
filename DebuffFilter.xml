@@ -8,7 +8,7 @@ C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
 		<Layers>
 			<Layer level="BACKGROUND">
 				<Texture name="$parentIcon"/>
-				<!-- current number of debuff/buff's stack -->
+
 				<FontString name="$parentCount" inherits="NumberFontNormalSmall">
 					<Anchors>
 						<Anchor point="BOTTOMRIGHT">
@@ -18,7 +18,7 @@ C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
 						</Anchor>
 					</Anchors>
 				</FontString>
-				<!-- number of same debuffs/buffs that are combined -->
+
 				<FontString name="$parentCount2" inherits="NumberFontNormalSmall">
 					<Color r="1.0" g="0.82" b="0"/>
 					<Anchors>
@@ -44,8 +44,7 @@ C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
 			</Layer>
 		</Layers>
 		<Frames>
-			<!-- display time remaining for a debuff/buff as a cooldown on the debuff/buff 
-			itself similar to a clock -->
+
 			<Cooldown name="$parentCooldown" inherits="CooldownFrameTemplate" reverse="true" hidden="true">
 				<Anchors>
 					<Anchor point="CENTER">
@@ -109,7 +108,7 @@ C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
 		</Size>
 		<Layers>
 			<Layer level="OVERLAY">
-				<!-- display total number of debuffs/buffs raider has -->
+
 				<FontString name="$parentCount" inherits="GameFontNormal" hidden="true">
 					<Size>
 						<AbsDimension x="30" y="12"/>
@@ -121,8 +120,7 @@ C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
 			</Layer>
 		</Layers>
 	</Frame>
-	<!-- backdrop placed over frame to aid in moving it and to allow frame to be moved
-		even if frames are locked -->
+
 	<Button name="DebuffFilter_BackdropTemplate" hidden="true" virtual="true">
 		<Size>
 			<AbsDimension x="40" y="40"/>
@@ -157,7 +155,7 @@ C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
 			</OnHide>
 		</Scripts>
 	</Button>
-	<!-- Title of frame shown when backdrops are displayed -->
+
 	<FontString name="DebuffFilter_NameTemplate" inherits="GameFontNormal" virtual="true">
 		<Size>
 			<AbsDimension x="100" y="12"/>

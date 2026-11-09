@@ -45,7 +45,7 @@ C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
 		</Backdrop>
 		<Layers>
 			<Layer level="BACKGROUND">
-				<!-- ArcaneBlue title strip replacing Blizzard gold header -->
+
 				<Texture name="DebuffFilterOptions_TitleBG" file="Interface\Tooltips\UI-Tooltip-Background">
 					<Size>
 						<AbsDimension x="520" y="40"/>
@@ -983,7 +983,7 @@ C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
 			</OnMouseUp>
 		</Scripts>
 	</Frame>
-	<!-- Import/Export popup frame -->
+
 	<Frame name="DebuffFilterOptions_ImportExportFrame" toplevel="true" frameStrata="DIALOG" movable="true" enableMouse="true" hidden="true" parent="UIParent">
 		<Size>
 			<AbsDimension x="460" y="300"/>
